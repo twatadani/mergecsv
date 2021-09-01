@@ -69,9 +69,8 @@ for srccsv in gresult:
             first_title_read = True
         # 1行ずつデータを読み込み、先頭にpt名を付加する
         for row in reader:
-            newrow = [ ptname ]
-            newrow.extend(row)
-            mergedrow.append(newrow)
+            row.insert(0, ptname)
+            mergedrow.append(row)
 
 # 統合後のCSV書き込み
 with open(dstcsv, mode='w') as dstfp:
