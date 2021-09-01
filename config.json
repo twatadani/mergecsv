@@ -1,0 +1,11 @@
+{
+    "MERGECSVの設定ファイル": "comment",
+    ":の右側がcommentとなっている行は単なる説明文です": "comment",
+
+    "統合前のCSVファイルが格納されているディレクトリ": "comment",
+    "SRCCSVDIR": "./testcsv",
+
+    "統合後に保存するCSVファイルの名前": "comment",
+    "DSTCSV": "./result/merged.csv"
+
+}
