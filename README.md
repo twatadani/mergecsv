@@ -11,6 +11,7 @@
 
 * Version 1.0(2021/9/1): 初期バージョンを作成
 * Version 2.0(2021/9/1): CSVの統合仕様を変更
+* Version 2.1(2021/9/1): CSVに不要なカラムがあってもカラム番号を指定して読み取りできるように変更
 
 ---
 
@@ -57,18 +58,18 @@ $ python ./mergecsv.py
 
 #### pt1/acapulco/data.csv  
 
-| LOCATION | MEASUREMENT |  
-| -------- | ----------- |  
-| thalamus | 0.2357      |  
-| caudate  | 0.1234      |
+| LABEL    | LOCATION    | MEASUREMENT |  
+| -------- | ----------- | ----------  | 
+| 25       | thalamus    | 0.2357      |  
+| 32       | caudate     | 0.1234      |
 ...  
 
 #### pt2/acapulco/data.csv  
 
-| LOCATION | MEASUREMENT |  
-| -------- | ----------- |  
-| thalamus | 0.2376      |  
-| caudate  | 0.1333      |
+| LABEL    | LOCATION    | MEASUREMENT |  
+| -------- | ----------- | ----------  | 
+| 25       | thalamus    | 0.2376      |  
+| 32       | caudate     | 0.1333      |
 ...
 
 のようなCSVファイルが複数あったとき、統合結果として
@@ -81,4 +82,4 @@ $ python ./mergecsv.py
 | caudate  | 0.1234 | 0.1333 |
 ...
 
-のように統合を行う。  
+となるように統合を行う。  

@@ -5,6 +5,15 @@
     "統合前のCSVファイルが格納されているディレクトリ": "comment",
     "SRCCSVDIR": "./testcsv",
 
+    "統合前のCSVファイル読み込みに関する設定": "comment",
+    "読み込みを行うカラムの設定。": "comment",
+    "TITLEは出力CSVファイルの先頭行に記載されるヘッダ(MEASUREMENTを除く)": "comment",
+    ":の右側はもとのCSVファイルで該当するデータのカラム番号を書く。カラム番号は0番から開始": "comment",
+    "READCOLUMNS": {
+        "LOCATION": 1,
+        "MEASUREMENT": 2
+    },
+
     "統合後に保存するCSVファイルの名前": "comment",
     "DSTCSV": "./result/merged.csv"
 

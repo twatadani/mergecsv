@@ -30,6 +30,7 @@ with open('config.json', mode='r') as cjfp:
 
 srcdir = os.path.expanduser(os.path.expandvars(cfdict['SRCCSVDIR']))
 dstcsv = os.path.expanduser(os.path.expandvars(cfdict['DSTCSV']))
+columns = cfdict['READCOLUMNS']
 
 # 格納先のディレクトリが存在しない場合はディレクトリを作成する
 dstdir = os.path.dirname(dstcsv)
@@ -72,9 +73,13 @@ for srccsv in gresult:
         # 1行ずつデータを読み込み、SubjectDataオブジェクトを作成し、datasetに追加する
         datadict = {}
         for row in reader:
-            if not row[0] in measurements:
-                measurements.append(row[0])
-            datadict[row[0]] = row[1]
+            keycolnum = columns['LOCATION']
+            valuecolnum = columns['MEASUREMENT']
+            key = row[keycolnum]
+            value  = row[valuecolnum]
+            datadict[key] = value
+            if not key in measurements:
+                measurements.append(key)
         dataset.add(SubjectData(subjectid, datadict))
 
 # datasetは順不同になってしまうので出力前にソートを行う
