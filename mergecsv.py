@@ -12,7 +12,7 @@ import os.path
 import os
 from glob import glob
 
-__author__ = 'Takeyuki Watadani<watadat-tky@umin.ac.jp'
+__author__ = 'Takeyuki Watadani<watadat-tky@umin.ac.jp>'
 __date__ = '2021/9/1'
 __version__ = '1.0'
 __status__ = 'initial'
