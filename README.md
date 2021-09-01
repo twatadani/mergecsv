@@ -46,7 +46,7 @@ $ python ./mergecsv.py
 
 ## 本スクリプトで統合するCSVのファイル形式についての仕様
 
-#### pt1.csv  
+#### pt1/acapulco/data.csv  
 
 | LOCATION | MEASUREMENT |  
 | -------- | ----------- |  
@@ -54,7 +54,7 @@ $ python ./mergecsv.py
 | caudate  | 0.1234      |
 ...  
 
-#### pt2.csv  
+#### pt2/acapulco/data.csv  
 
 | LOCATION | MEASUREMENT |  
 | -------- | ----------- |  
@@ -66,12 +66,10 @@ $ python ./mergecsv.py
 
 #### merged.csv
 
-| PATIENT | LOCATION | MEASUREMENT |
-| ------- | -------- | ----------- |  
-| pt1     | thalamus | 0.2357      |
-| pt1     | caudate  | 0.1234      |
-| pt2     | thalamus | 0.2376      |
-| pt2     | caudate  | 0.1333      |
+| LOCATION | pt1 | pt2 |  
+| -------- | --- | --- | 
+| thalamus | 0.2357 | 0.2376 |
+| caudate  | 0.1234 | 0.1333 |
 ...
 
 のように統合を行う。  
