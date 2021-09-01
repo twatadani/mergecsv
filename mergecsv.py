@@ -19,6 +19,10 @@ __date__ = '2021/9/1'
 __version__ = '2.0'
 __status__ = 'validation'
 
+# 定数の定義
+SPLITKEY = '/acapulco/'
+CSVFILENAME = 'data.csv'
+
 # config.jsonの読み込み
 
 with open('config.json', mode='r') as cjfp:
@@ -35,7 +39,7 @@ if not os.path.exists(dstdir):
     os.makedirs(dstdir)
 
 # 読み込むCSVファイル群をリストアップする
-gstr = os.path.join(srcdir, '**/acapulco/data.csv')
+gstr = os.path.join(srcdir, '**' + SPLITKEY + CSVFILENAME)
 gresult = iglob(gstr, recursive=True)
 
 # CSVファイルを読み込む
@@ -59,7 +63,7 @@ for srccsv in gresult:
         dialect = sniffer.sniff(csvfp.read(256))
         csvfp.seek(0)
 
-        subjectid = os.path.basename(srccsv.split('/acapulco/')[0])
+        subjectid = os.path.basename(srccsv.split(SPLITKEY)[0])
         print(subjectid, 'のdata.csvを読み込みます。')
 
         reader = csv.reader(csvfp, dialect)
