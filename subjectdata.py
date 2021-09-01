@@ -26,7 +26,7 @@ class SubjectData:
 
         # obj.thalamusで'0.2357'を取得できるattributeを与える
         for key in data:
-            setattr(self, key, data[key])
+            setattr(self, key, self.__data[key])
         return
 
 
