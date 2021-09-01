@@ -1,3 +1,3 @@
-"LOCATION","MEASUREMENT"
-"thalamus","0.2357"
-"caudate","0.1234"
+"LABEL","LOCATION","MEASUREMENT"
+"25","thalamus","0.2357"
+"32","caudate","0.1234"
