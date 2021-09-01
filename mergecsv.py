@@ -10,12 +10,18 @@ import json
 import csv
 import os.path
 import os
-from glob import glob
+from glob import iglob
+
+from subjectdata import SubjectData
 
 __author__ = 'Takeyuki Watadani<watadat-tky@umin.ac.jp>'
 __date__ = '2021/9/1'
-__version__ = '1.0'
-__status__ = 'initial'
+__version__ = '2.0'
+__status__ = 'validation'
+
+# 定数の定義
+SPLITKEY = '/acapulco/'
+CSVFILENAME = 'data.csv'
 
 # config.jsonの読み込み
 
@@ -33,52 +39,64 @@ if not os.path.exists(dstdir):
     os.makedirs(dstdir)
 
 # 読み込むCSVファイル群をリストアップする
-gstr = os.path.join(srcdir, '**/*.csv')
-gresult = glob(gstr, recursive=True)
-
-# globでリストアップされたものは順番が保証されていないので、ソートする
-gresult.sort()
+gstr = os.path.join(srcdir, '**' + SPLITKEY + CSVFILENAME)
+gresult = iglob(gstr, recursive=True)
 
 # CSVファイルを読み込む
 
 # 最初に読み込むファイルの先頭行を統合後のタイトルにする
-pttitle = 'Patient'
-titlerow = None
-first_title_read = False
+measurements = []
 
 mergedrow = [] # 最終的に書き込むデータ
 
 sniffer = csv.Sniffer()
 
-# 1つずつCSVファイルを読み込む
+# 1つずつCSVファイルを読み込み、subjectdataのsetを作成する
+dataset = set()
+
 for srccsv in gresult:
     with open(srccsv, mode='r') as csvfp:
         basename = os.path.basename(srccsv)
-        print(basename, 'を読み込みます。')
+        
 
         # CSVの形式を推測する
         dialect = sniffer.sniff(csvfp.read(256))
         csvfp.seek(0)
 
-        ptname = basename.split('.')[0]
+        subjectid = os.path.basename(srccsv.split(SPLITKEY)[0])
+        print(subjectid, 'のdata.csvを読み込みます。')
+
         reader = csv.reader(csvfp, dialect)
-        tmp1st = reader.__next__()
-        if not first_title_read:
-            tmp1st.insert(0, pttitle)
-            titlerow = tmp1st
-            first_title_read = True
-        # 1行ずつデータを読み込み、先頭にpt名を付加する
+        tmp1st = reader.__next__() # タイトル行は読み捨てる
+        
+        # 1行ずつデータを読み込み、SubjectDataオブジェクトを作成し、datasetに追加する
+        datadict = {}
         for row in reader:
-            row.insert(0, ptname)
-            mergedrow.append(row)
+            if not row[0] in measurements:
+                measurements.append(row[0])
+            datadict[row[0]] = row[1]
+        dataset.add(SubjectData(subjectid, datadict))
+
+# datasetは順不同になってしまうので出力前にソートを行う
+sortedset = sorted(dataset, key=lambda x: x.id)
 
 # 統合後のCSV書き込み
 with open(dstcsv, mode='w') as dstfp:
     writer = csv.writer(dstfp, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
+
+    # タイトル行の作成
+    titlerow = [ 'LOCATION' ]
+    for dat in sortedset:
+        titlerow.append(dat.id)
+
     # タイトル行の書き込み
     writer.writerow(titlerow)
+
     # データ行の書き込み
-    for row in mergedrow:
+    for location in measurements:
+        row = [ location ]
+        for dat in sortedset:
+            row.append(getattr(dat, location))
         writer.writerow(row)
 
 print('CSV統合が完了しました。出力ファイルは', dstcsv, 'です。')
